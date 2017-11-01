@@ -98,7 +98,7 @@ module.exports = NodeHelper.create({
         var argsM = [];
 
         payload.forEach(s => {
-            var args = ["--live", "--video_queue", "4", "--fps", "30",
+            var args = ["--live", "--video_queue", "4", "--fps", "30", "-n", "-1",
                 this.config[s.name].url
             ];
             if (!("fullscreen" in s)) {
