@@ -8,6 +8,7 @@
  */
 /* jshint esversion: 6*/
 var global = this;
+var cammapdata=null;
 
 Module.register("MMM-RTSPStream", {
     defaults: {
@@ -84,6 +85,7 @@ Module.register("MMM-RTSPStream", {
                 self.streams[key] = { playing: false };
             });
         }
+        this.sendSocketNotification("GET_CAMMAP");
     },
 
     setupStreamRotation: function() {
@@ -395,7 +397,7 @@ Module.register("MMM-RTSPStream", {
         } else {
             var ctx = canvas.getContext("2d");
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            var sUrl = `ws://${document.location.hostname}:${this.config[stream].ffmpegPort}`;
+            var sUrl = `wss://${document.location.hostname}:${this.config[stream].ffmpegPort}`;
             var player = new JSMpeg.Player(sUrl, { canvas: canvas, disableGl: true, audio: false });
             this.streams[stream].player = player;
         }
@@ -710,5 +712,35 @@ Module.register("MMM-RTSPStream", {
                 img.src = payload.buffer;
             }
         }
+        if(notification === "WITHCAMMAP")
+        {
+            cammapdata=payload;
+        }
     },
+
+    notificationReceived: function(notification, payload, sender) {
+
+        if (notification === 'SHOW_SCAM')
+        {            
+            console.log(cammapdata);
+			
+            Log.log('Notification Received from ' + sender.name + ' containing payload : '+ payload.pay );
+            payload.pay=payload.pay.toLowerCase();
+            
+            if(payload.pay in cammapdata)
+            {
+                this.config.stream1.url=cammapdata[payload.pay];
+
+                //Following can be example if we want to add support for multiple streams :
+                // this.config["stream2"]={};
+                // this.config.stream2["url"]=cammapdata["stadium"];
+                // this.config.stream2["frameRate"]=30;
+                // this.config.stream2["ffmpegPort"]=8082;
+                // this.config.stream2["name"]="cam2";
+
+                this.start();
+            }
+          
+        }
+    }
 });

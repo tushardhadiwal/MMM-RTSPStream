@@ -1,0 +1,10 @@
+{
+"bathroom":"rtsp://admin:<REPLACE_ME>@10.91.48.145/axis-media/media.amp",
+"concessions":"rtsp://admin:<REPLACE_ME>@10.91.50.88/axis-media/media.amp",
+"stadium":"rtsp://admin:<REPLACE_ME>@10.91.50.85/axis-media/media.amp",
+"elevator":"rtsp://admin:<REPLACE_ME>@10.91.48.160/axis-media/media.amp",
+"kitchen":"rtsp://admin:<REPLACE_ME>@10.91.48.166/axis-media/media.amp",
+"hallway":"rtsp://admin:<REPLACE_ME>@10.91.48.167/axis-media/media.amp",
+"lounge":"rtsp://admin:<REPLACE_ME>@10.91.48.168/axis-media/media.amp"
+
+}

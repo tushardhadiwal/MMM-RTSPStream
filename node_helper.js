@@ -17,6 +17,7 @@ const psTree = require('ps-tree');
 const child_process = require('child_process');
 const environ = Object.assign(process.env, { DISPLAY: ":0" });
 const pm2 = require('pm2');
+var cammap=null;
 
 module.exports = NodeHelper.create({
 
@@ -270,6 +271,12 @@ end
             });
         }
         if (typeof callback === "function") { callback(); }
+    },
+
+    getCameraMapping: function() {
+        var data=fs.readFileSync(path.join(__dirname, "/cammap.json"), 'utf8');
+        cammap=JSON.parse(data);
+        console.log(cammap);
     },
 
     getOmxplayer: function(payload) {
@@ -547,6 +554,11 @@ end
             if (Object.keys(this.vlcStream).length > 0) {
                 this.stopAllVlcPlayers(payload);
             }
+        }
+        if (notification === "GET_CAMMAP") {
+           this.getCameraMapping();
+           this.sendSocketNotification("WITHCAMMAP", cammap);
+
         }
     },
 });
